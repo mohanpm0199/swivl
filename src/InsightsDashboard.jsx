@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 /* ------------------------------------------------------------------ *
- * DUMMY DATA — hardcoded for now. One day this comes from the API.
+ * DUMMY DATA - hardcoded for now. One day this comes from the API.
  * `collected` is added so the Billed | Collected toggle does something
  * real (collected = what has actually landed in the bank).
  * ------------------------------------------------------------------ */
@@ -90,7 +90,7 @@ function TrendArrow({ direction }) {
   );
 }
 
-/* The reusable "context" badge — the heart of the whole feature.
+/* The reusable "context" badge - the heart of the whole feature.
  * Turns a raw number into: direction + comparison + color. */
 function Signal({ change, direction, status = "neutral", label }) {
   const s = STATUS[status];
@@ -113,7 +113,7 @@ function Signal({ change, direction, status = "neutral", label }) {
 }
 
 /* ------------------------------------------------------------------ *
- * CARD SHELL — every section uses this so they stay visually identical
+ * CARD SHELL - every section uses this so they stay visually identical
  * and so new P2/P3/P4 blocks can be dropped in via `children`.
  * ------------------------------------------------------------------ */
 function Card({ title, subtitle, action, children }) {
@@ -151,7 +151,7 @@ function Metric({ label, value, signal, note, noteStatus = "good" }) {
 }
 
 /* ------------------------------------------------------------------ *
- * SECTION 1 — FINANCE
+ * SECTION 1 - FINANCE
  * ------------------------------------------------------------------ */
 function FinanceCard({ data }) {
   const [basis, setBasis] = useState("billed"); // "billed" | "collected"
@@ -250,7 +250,7 @@ function FinanceCard({ data }) {
 }
 
 /* ------------------------------------------------------------------ *
- * SECTION 2 — JOBS
+ * SECTION 2 - JOBS
  * ------------------------------------------------------------------ */
 function JobsCard({ data }) {
   return (
@@ -270,7 +270,7 @@ function JobsCard({ data }) {
         />
       </div>
 
-      {/* Needs-attention row — amber so it stands out from the rest. */}
+      {/* Needs-attention row - amber so it stands out from the rest. */}
       <div className="mt-3 flex items-center justify-between rounded-xl bg-amber-50 px-4 py-3 ring-1 ring-amber-200">
         <div>
           <div className="flex items-center gap-2 text-sm font-semibold text-amber-800">
@@ -291,7 +291,7 @@ function JobsCard({ data }) {
 }
 
 /* ------------------------------------------------------------------ *
- * SECTION 3 — CUSTOMERS
+ * SECTION 3 - CUSTOMERS
  * ------------------------------------------------------------------ */
 function CustomersCard({ data }) {
   return (
@@ -324,7 +324,7 @@ function CustomersCard({ data }) {
           signal={
             <Signal direction="up" status="good" label="vs last month" />
           }
-          note="Repeat customers cost less to serve — a sign of a healthy business"
+          note="Repeat customers cost less to serve - a sign of a healthy business"
         />
       </div>
 

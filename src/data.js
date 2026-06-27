@@ -16,7 +16,7 @@ export const dashboardData = {
       netIncome: 136380.31,
       netMargin: 65.1,
     },
-    // Tiny chart series (per a few days in the month) — revenue vs costs.
+    // Tiny chart series (per a few days in the month) - revenue vs costs.
     series: [
       { day: "2", revenue: 95, costs: 12 },
       { day: "6", revenue: 8, costs: 18 },
@@ -38,10 +38,11 @@ export const dashboardData = {
     totalNewChange: 97.5,
     avgRating: 4.64,
     smsSent: 382,
+    cameBack: 34,
   },
 };
 
-/* Sidebar navigation model — drives the whole left rail. */
+/* Sidebar navigation model - drives the whole left rail. */
 export const navSections = [
   { key: "dashboard", label: "Dashboard", icon: "Home" },
   { key: "scheduler", label: "Scheduler", icon: "Calendar" },

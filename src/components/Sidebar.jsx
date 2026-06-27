@@ -18,7 +18,7 @@ function Badge({ children, tone = "violet" }) {
   );
 }
 
-function NavItem({ item, active, onClick }) {
+function NavItem({ item, active, onClick, collapsed }) {
   const Icon = Icons[item.icon];
   return (
     <button
@@ -30,7 +30,7 @@ function NavItem({ item, active, onClick }) {
       }`}
     >
       {Icon && <Icon className="h-[18px] w-[18px] shrink-0" />}
-      <span className="truncate">{item.label}</span>
+      {!collapsed && <span className="truncate">{item.label}</span>}
 
       {item.badge && (
         <Badge tone={item.badge === "NEW" ? "amber" : "violet"}>
@@ -55,28 +55,29 @@ function NavItem({ item, active, onClick }) {
   );
 }
 
-export default function Sidebar() {
-  const [active, setActive] = useState("dashboard");
+export default function Sidebar({ activeView = "dashboard", onNavigate = () => {}, collapsed = false, onToggleCollapsed = () => {} }) {
   const [createOpen, setCreateOpen] = useState(false);
   const [tab, setTab] = useState("workspace");
 
   return (
-    <aside className="flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
+    <aside className={`flex shrink-0 flex-col border-r border-slate-200 bg-white transition-all duration-200 ${collapsed ? "w-20" : "w-64"}`}>
       {/* Brand */}
       <div className="flex items-center gap-3 px-4 py-4">
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-amber-400 to-yellow-500 text-sm font-bold text-white">
           Y
         </div>
-        <div className="min-w-0">
-          <div className="truncate text-sm font-bold text-slate-900">
-            Yellow Plum Grocers Co
+        {!collapsed && (
+          <div className="min-w-0">
+            <div className="truncate text-sm font-bold text-slate-900">
+              Yellow Plum Grocers Co
+            </div>
+            <div className="text-xs text-slate-400">Scale Pro</div>
           </div>
-          <div className="text-xs text-slate-400">Scale Pro</div>
-        </div>
+        )}
       </div>
 
       {/* Chat | Workspace toggle */}
-      <div className="px-3">
+      {!collapsed && <div className="px-3">
         <div className="flex rounded-lg bg-slate-100 p-1 text-sm font-medium">
           {[
             ["chat", "Chat"],
@@ -95,16 +96,16 @@ export default function Sidebar() {
             </button>
           ))}
         </div>
-      </div>
+      </div>}
 
       {/* Create button + dropdown */}
       <div className="relative px-3 py-3">
         <button
           onClick={() => setCreateOpen((o) => !o)}
-          className="flex w-full items-center gap-2 rounded-xl bg-teal-700 px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-800"
+          className={`flex w-full items-center justify-center gap-2 rounded-xl bg-teal-700 px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-800 ${collapsed ? "" : ""}`}
         >
           <Icons.Plus className="h-5 w-5" />
-          Create
+          {!collapsed && "Create"}
         </button>
 
         {createOpen && (
@@ -138,17 +139,18 @@ export default function Sidebar() {
             <div key={item.key}>
               <NavItem
                 item={item}
-                active={active === item.key}
-                onClick={() => setActive(item.key)}
+                active={activeView === item.key}
+                onClick={() => onNavigate(item.key)}
+                collapsed={collapsed}
               />
               {item.children && item.expanded && (
                 <div className="ml-9 mt-0.5 space-y-0.5">
                   {item.children.map((c) => (
                     <button
                       key={c.key}
-                      onClick={() => setActive(c.key)}
+                      onClick={() => onNavigate(c.key)}
                       className={`block w-full rounded-md px-3 py-1.5 text-left text-sm transition ${
-                        active === c.key
+                        activeView === c.key
                           ? "font-semibold text-teal-700"
                           : "text-slate-500 hover:text-slate-700"
                       }`}
@@ -163,11 +165,21 @@ export default function Sidebar() {
         })}
       </nav>
 
+      <div className="mt-2 border-t border-slate-100 px-3 py-3">
+        <button
+          onClick={() => onNavigate("insights")}
+          className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${activeView === "insights" ? "bg-cyan-50 font-semibold text-teal-700" : "text-slate-600 hover:bg-slate-50"}`}
+        >
+          <span className="text-[15px] leading-none">✨</span>
+          {!collapsed && <span className="truncate">Insights</span>}
+        </button>
+      </div>
+
       {/* Footer */}
       <div className="flex items-center justify-between border-t border-slate-100 px-4 py-3">
-        <span className="text-lg font-bold text-teal-700">Swivl</span>
-        <button className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600">
-          Minimize <Icons.PanelLeft className="h-4 w-4" />
+        {!collapsed && <span className="text-lg font-bold text-teal-700">Swivl</span>}
+        <button onClick={onToggleCollapsed} className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600">
+          {collapsed ? "Expand" : "Minimize"} <Icons.PanelLeft className={`h-4 w-4 transition-transform ${collapsed ? "rotate-180" : ""}`} />
         </button>
       </div>
     </aside>

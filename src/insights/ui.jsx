@@ -37,15 +37,12 @@ export function ToastProvider({ children }) {
 }
 
 /* ---------- collapsible card ---------- */
-/* Default state shows only `title` + `headline` + a toggle. Children (the
-   detail blocks) render only when `open`. If no onToggle is passed the card
-   is non-collapsible (shows everything) for backward compatibility. */
-export function Card({ id, title, headline, aiSummary, open, onToggle, toggleLabel = "Show details", children }) {
+export function Card({ id, title, headline, aiSummary, open, onToggle, toggleLabel = "Show details", footer, children }) {
   const collapsible = typeof onToggle === "function";
   return (
     <section
       id={id}
-      className="scroll-mt-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm"
+      className="flex h-full flex-col scroll-mt-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
     >
       <button
         onClick={onToggle}
@@ -62,31 +59,134 @@ export function Card({ id, title, headline, aiSummary, open, onToggle, toggleLab
 
       {headline && <div className="mt-4">{headline}</div>}
 
-      {aiSummary && (
-        <div className="mt-3 flex gap-2 rounded-lg bg-[#F6F5FF] px-3 py-2.5">
-          <span className="text-[13px] leading-5 text-violet-600">✨</span>
-          <p className="text-[13px] leading-5 text-[#374151]">{aiSummary}</p>
-        </div>
-      )}
-
       {collapsible && (
         <button
           onClick={onToggle}
-          className="mt-4 inline-flex items-center gap-1 text-[14px] font-medium text-[#0F766E]"
+          className="mt-4 inline-flex items-center gap-1 text-[14px] font-medium text-[#0B7B6B]"
         >
           {open ? "Hide" : toggleLabel}
           <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} />
         </button>
       )}
 
-      {(!collapsible || open) && (
-        <div className="mt-5 space-y-6">{children}</div>
-      )}
+      {(!collapsible || open) && <div className="mt-5 flex-1 space-y-6">{children}</div>}
+
+      {footer}
     </section>
   );
 }
 
-/* Sentence-case block heading — quiet, not shouty. */
+export function AiInsightsBox({ children }) {
+  return (
+    <div className="mt-4 rounded-lg border border-[#E0D9FF] bg-[#F5F3FF] p-3">
+      <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7C5CFC]">
+        ✨ AI Insights
+      </div>
+      <div className="space-y-1.5">{children}</div>
+    </div>
+  );
+}
+
+export function InsightLink({ children, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline cursor-pointer font-medium text-[#0B7B6B] underline decoration-[#0B7B6B]/70 underline-offset-2"
+    >
+      {children}
+    </button>
+  );
+}
+
+function InsightListRow({ icon, label, value, tone = "neutral" }) {
+  const valueClass =
+    tone === "red"
+      ? "text-[#DC2626]"
+      : tone === "green"
+      ? "text-[#059669]"
+      : "text-[#111827]";
+
+  return (
+    <div className="flex items-center justify-between gap-3 py-1 text-[15px] text-[#6B7280]">
+      <div className="flex items-center gap-2">
+        {icon ? <span className="leading-none">{icon}</span> : null}
+        <span className="font-normal">{label}</span>
+      </div>
+      {value ? <span className={`text-[16px] font-bold ${valueClass}`}>{value}</span> : null}
+    </div>
+  );
+}
+
+export function InsightModal({ isOpen, onClose, title, items = [], footer, buttonLabel = "View Full Breakdown in Insights →", onPrimaryAction }) {
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[60] flex cursor-pointer items-center justify-center bg-black/40 px-4 py-6 backdrop-blur-[6px]"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-xl rounded-[14px] border border-slate-200 bg-white shadow-[0_0_40px_rgba(124,92,252,0.25),0_20px_60px_rgba(0,0,0,0.15)]"
+        style={{
+          borderTop: "3px solid transparent",
+          backgroundImage: "linear-gradient(white, white), linear-gradient(90deg, #7C5CFC 0%, #0B7B6B 100%)",
+          backgroundOrigin: "border-box",
+          backgroundClip: "padding-box, border-box",
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-4">
+          <h3 className="text-[18px] font-semibold text-[#111827]">{title}</h3>
+          <div className="inline-flex rounded-full border border-[#E0D9FF] bg-[#F5F3FF] px-2.5 py-1 text-[11px] font-semibold text-[#7C5CFC]">
+            ✨ AI
+          </div>
+          <button type="button" onClick={onClose} className="cursor-pointer text-[22px] font-semibold leading-none text-slate-500">
+            ×
+          </button>
+        </div>
+
+        <div className="px-6 py-5">
+          <div className="space-y-3">
+            {items.map((item, index) =>
+              item?.divider ? (
+                <div key={index} className="my-3 border-t border-slate-200" />
+              ) : (
+                <InsightListRow
+                  key={index}
+                  icon={item?.icon}
+                  label={item?.label}
+                  value={item?.value}
+                  tone={item?.tone}
+                />
+              )
+            )}
+            {footer && (
+              <div className={`mt-3 border-t border-slate-200 pt-3 text-[15px] font-semibold ${footer.tone === "red" ? "text-red-600" : footer.tone === "teal" ? "text-[#0B7B6B]" : "text-[#111827]"}`}>
+                {footer.label}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="flex justify-end border-t border-slate-200 px-6 py-4">
+          <button
+            type="button"
+            onClick={() => {
+              if (onPrimaryAction) onPrimaryAction();
+              onClose();
+            }}
+            className="cursor-pointer rounded-lg bg-[#0B7B6B] px-4 py-2 text-[14px] font-semibold text-white"
+          >
+            {buttonLabel}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Sentence-case block heading - quiet, not shouty. */
 export function BlockHeading({ children }) {
   return (
     <h3 className="mb-3 text-[14px] font-medium text-[#6B7280]">{children}</h3>
@@ -133,7 +233,7 @@ export function MoreList({ items, cap, render, open, setOpen, moreLabel }) {
       {hidden > 0 && (
         <button
           onClick={() => toggle((o) => !o)}
-          className="w-full py-3 text-left text-[14px] font-medium text-[#0F766E]"
+          className="w-full py-3 text-left text-[14px] font-medium text-[#0B7B6B]"
         >
           {isOpen ? "Show less" : moreLabel || `${hidden} more`}
         </button>
@@ -171,7 +271,7 @@ export function ActionButton({ children, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="shrink-0 rounded-lg bg-[#0F766E] px-3 py-1.5 text-[13px] font-medium text-white transition active:scale-95"
+      className="shrink-0 rounded-lg bg-[#0B7B6B] px-3 py-1.5 text-[13px] font-medium text-white transition active:scale-95"
     >
       {children}
     </button>
@@ -183,7 +283,7 @@ export function PrimaryButton({ children, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="w-full rounded-xl bg-[#0F766E] px-4 py-3 text-[15px] font-medium text-white transition active:scale-[0.98]"
+      className="w-full rounded-xl bg-[#0B7B6B] px-4 py-3 text-[15px] font-medium text-white transition active:scale-[0.98]"
     >
       {children}
     </button>

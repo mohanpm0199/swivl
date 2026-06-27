@@ -1,4 +1,4 @@
-/* Lightweight inline icon set (Lucide-style strokes) — no icon library.
+/* Lightweight inline icon set (Lucide-style strokes) - no icon library.
    Every icon inherits color via `currentColor` and sizes via `className`. */
 
 function Svg({ children, className = "h-5 w-5", strokeWidth = 1.75 }) {

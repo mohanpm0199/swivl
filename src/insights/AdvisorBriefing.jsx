@@ -34,7 +34,7 @@ function InsightRow({ item, onJump }) {
   );
 }
 
-export default function AdvisorBriefing({ owner, insights, onJump }) {
+/*export default function AdvisorBriefing({ owner, insights, onJump }) {
   const sorted = [...insights].sort((a, b) => ORDER[a.priority] - ORDER[b.priority]);
 
   const n = (p) => insights.filter((i) => i.priority === p).length;
@@ -52,7 +52,7 @@ export default function AdvisorBriefing({ owner, insights, onJump }) {
         <AiTag />
       </div>
       <p className="mt-1 text-[14px] text-[#374151]">
-        Good morning {owner}. Here's what matters today — {tldr}
+        Good morning {owner}. Here's what matters today - {tldr}
       </p>
 
       <div className="mt-4 grid grid-cols-1 items-start gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -62,4 +62,4 @@ export default function AdvisorBriefing({ owner, insights, onJump }) {
       </div>
     </section>
   );
-}
+}*/
