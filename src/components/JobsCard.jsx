@@ -1,15 +1,12 @@
-import { Card, Trend, StatLabel } from "./ui.jsx";
+import { Card, StatLabel } from "./ui.jsx";
 import * as Icons from "../icons.jsx";
 
-function Stat({ label, value, change }) {
+function Stat({ label, value }) {
   return (
     <div>
       <StatLabel>{label}</StatLabel>
-      <div className="mt-1 flex items-center gap-2">
-        <span className="text-3xl font-bold tracking-tight text-slate-900">
-          {value}
-        </span>
-        <Trend change={change} />
+      <div className="mt-1 text-3xl font-bold tracking-tight text-slate-900">
+        {value}
       </div>
     </div>
   );
@@ -38,15 +35,25 @@ export default function JobsCard({ data }) {
           </button>
         </div>
       }
+      aiSummary="4 completed jobs still need invoicing. Drain cleaning is making you most profit. Inspections are costing you."
     >
       <div className="grid grid-cols-3 gap-4">
-        <Stat label="Created" value={data.created} change={data.createdChange} />
-        <Stat label="Open" value={data.open} />
-        <Stat label="Closed" value={data.closed} />
+        <Stat label="New Jobs" value={data.created} />
+        <Stat label="In Progress" value={data.open} />
+        <Stat label="Completed" value={data.closed} />
       </div>
-      <p className="mt-3 text-xs text-slate-400">to previous month</p>
+      <p className="mt-3 text-xs text-slate-400">vs last month</p>
 
-      {/* P2/P3/P4 jobs blocks slot in here. */}
+      <div className="mt-5 space-y-2">
+        <button className="flex w-full items-start gap-2 rounded-lg px-0 py-1.5 text-left text-[14px] text-[#374151]">
+          <span className="mt-0.5 text-[15px] leading-none">🟢</span>
+          <span>Drain cleaning made you most profit this month</span>
+        </button>
+        <button className="flex w-full items-start gap-2 rounded-lg px-0 py-1.5 text-left text-[14px] text-[#374151]">
+          <span className="mt-0.5 text-[15px] leading-none">🔴</span>
+          <span>Inspections lost you money - 3 jobs</span>
+        </button>
+      </div>
     </Card>
   );
 }

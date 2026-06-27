@@ -3,9 +3,9 @@ import * as Icons from "../icons.jsx";
 export const money = (n) =>
   "$ " + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-/* Card shell — every metric section shares this so they stay identical and
+/* Card shell - every metric section shares this so they stay identical and
    future P2–P4 blocks drop in via `children`/`footer` without layout churn. */
-export function Card({ title, subtitle, action, children, footer, className = "" }) {
+export function Card({ title, subtitle, action, children, footer, className = "", aiSummary }) {
   return (
     <section
       className={`flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm ${className}`}
@@ -18,12 +18,25 @@ export function Card({ title, subtitle, action, children, footer, className = ""
         {action}
       </header>
       <div className="flex-1">{children}</div>
+      {aiSummary && (
+        <div className="mt-5 rounded-lg border-l-[3px] border-[#0B7B6B] bg-[#F0FAF8] p-3">
+          <div className="text-[12px] font-semibold uppercase tracking-wide text-[#0B7B6B]">
+            ✨ AI Summary
+          </div>
+          <p className="mt-1 text-sm leading-5 text-slate-700">{aiSummary}</p>
+          <div className="mt-2 flex justify-end">
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-[12px] font-medium text-[#0B7B6B]">
+              View in Insights →
+            </a>
+          </div>
+        </div>
+      )}
       {footer}
     </section>
   );
 }
 
-/* The context badge — turns a % into direction + color (green up / red down). */
+/* The context badge - turns a % into direction + color (green up / red down). */
 export function Trend({ change }) {
   if (change == null) return null;
   const down = change < 0;

@@ -6,7 +6,7 @@ jargon-free label.
 
 ## Run it
 
-You'll need Node.js 18+ (it isn't installed on this machine yet — grab it from
+You'll need Node.js 18+ (it isn't installed on this machine yet - grab it from
 https://nodejs.org or `brew install node`).
 
 ```bash
@@ -27,7 +27,7 @@ src/
 
 All three sections share one `<Card>` shell and one `<Signal>` badge, so the
 look stays consistent and the upcoming P2–P4 blocks (losing/most-profitable
-jobs, where cash is stuck) drop in under each card without touching layout —
+jobs, where cash is stuck) drop in under each card without touching layout -
 see the `{/* P2/P3/P4 ... slot in here */}` markers.
 
 Data is hardcoded in `dashboardData` at the top of `InsightsDashboard.jsx`.

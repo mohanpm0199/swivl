@@ -22,13 +22,13 @@ export const data = {
         label: "Parts and supplies",
         amount: 24000,
         status: "warning",
-        signal: "Up 18% — higher than usual",
+        signal: "Up 18% - higher than usual",
       },
       {
         label: "Travel cost",
         amount: 8133,
         status: "warning",
-        signal: "Up 22% — growing fast",
+        signal: "Up 22% - growing fast",
         advice: "You're spending more getting to jobs. A trip fee could help.",
       },
     ],
@@ -69,10 +69,10 @@ export const data = {
     notBilled: 4,
 
     losingJobs: [
-      { name: "Inspection — Riverside Apts", lost: 45, reason: "Parts cost too much" },
-      { name: "Water heater — Tom Hendricks", lost: 30, reason: "Discount and long drive" },
-      { name: "Inspection — Oakwood", lost: 25, reason: "Took twice as long as planned" },
-      { name: "Repair — Mike Russo", lost: 18, reason: "Had to buy emergency parts" },
+      { name: "Inspection - Riverside Apts", lost: 45, reason: "Parts cost too much" },
+      { name: "Water heater - Tom Hendricks", lost: 30, reason: "Discount and long drive" },
+      { name: "Inspection - Oakwood", lost: 25, reason: "Took twice as long as planned" },
+      { name: "Repair - Mike Russo", lost: 18, reason: "Had to buy emergency parts" },
     ],
 
     bestWork: [
@@ -90,12 +90,12 @@ export const data = {
     ],
 
     forgotToBill: [
-      { name: "Drain repair — Sarah Johnson", amount: 850, daysAgo: 12 },
-      { name: "Inspection — Oakwood HOA", amount: 1200, daysAgo: 18 },
-      { name: "Repair — Mike Russo", amount: 620, daysAgo: 22 },
-      { name: "Install — Riverside Apts", amount: 940, daysAgo: 31 },
-      { name: "Cleaning — Tom Hendricks", amount: 380, daysAgo: 35 },
-      { name: "Repair — New Customer", amount: 210, daysAgo: 41 },
+      { name: "Drain repair - Sarah Johnson", amount: 850, daysAgo: 12 },
+      { name: "Inspection - Oakwood HOA", amount: 1200, daysAgo: 18 },
+      { name: "Repair - Mike Russo", amount: 620, daysAgo: 22 },
+      { name: "Install - Riverside Apts", amount: 940, daysAgo: 31 },
+      { name: "Cleaning - Tom Hendricks", amount: 380, daysAgo: 35 },
+      { name: "Repair - New Customer", amount: 210, daysAgo: 41 },
     ],
   },
 
@@ -104,6 +104,7 @@ export const data = {
     newChange: 97,
     avgRating: 4.64,
     repeatCustomers: 34,
+    cameBack: 34,
 
     profitList: [
       { name: "Oakwood HOA", made: 1840, jobs: 12, status: "good", tag: "Your best customer" },
@@ -135,7 +136,7 @@ export const data = {
     ],
   },
 
-  /* AI advisor layer — plain-English insight derived from the numbers above.
+  /* AI advisor layer - plain-English insight derived from the numbers above.
      `id` links each insight to the card/section it explains. */
   ai: {
     briefing: [
@@ -143,7 +144,7 @@ export const data = {
         id: "stuck-cash",
         priority: "critical",
         title: "$8,400 you've earned isn't in your bank yet",
-        why: "6 finished jobs were never invoiced and 8 invoices are unpaid. This is money you've already earned — it's just sitting uncollected.",
+        why: "6 finished jobs were never invoiced and 8 invoices are unpaid. This is money you've already earned - it's just sitting uncollected.",
         action: "Generate invoices",
         actionToast: "✅ 6 invoices created!",
       },
@@ -151,7 +152,7 @@ export const data = {
         id: "losing-jobs",
         priority: "critical",
         title: "Every inspection lost you money this month",
-        why: "All 8 inspections cost more than they earned — −$1,920 total. Your parts and time on these are higher than what you charge.",
+        why: "All 8 inspections cost more than they earned - −$1,920 total. Your parts and time on these are higher than what you charge.",
         action: "Review pricing",
         actionToast: "✅ Opened inspection pricing",
       },
@@ -167,7 +168,7 @@ export const data = {
         id: "finance",
         priority: "opportunity",
         title: "Drain cleaning is your biggest money-maker",
-        why: "32 drain jobs brought in $94,000 — by far your most profitable work. Booking more of these grows your profit the fastest.",
+        why: "32 drain jobs brought in $94,000 - by far your most profitable work. Booking more of these grows your profit the fastest.",
         action: "Promote this service",
         actionToast: "✅ Drain cleaning added to your ads",
       },
@@ -175,11 +176,11 @@ export const data = {
 
     cardSummary: {
       finance:
-        "You kept $165K this month, up 18%. Costs are under control — but $8,400 you've earned is still uncollected.",
+        "You kept $165K this month, up 18%. Costs are under control - but $8,400 you've earned is still uncollected.",
       jobs:
         "62 jobs done. Drain cleaning pays best, but inspections lost money on all 8, and 4 jobs still need invoicing.",
       customers:
-        "79 new customers and a 4.64★ rating. Almost everyone is profitable — only Tom Hendricks costs more than he pays.",
+        "79 new customers and a 4.64★ rating. Almost everyone is profitable - only Tom Hendricks costs more than he pays.",
     },
   },
 };
