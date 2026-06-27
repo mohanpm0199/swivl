@@ -118,7 +118,7 @@ function InsightListRow({ icon, label, value, tone = "neutral" }) {
   );
 }
 
-export function InsightModal({ isOpen, onClose, title, items = [], footer, buttonLabel = "View Full Breakdown in Insights →" }) {
+export function InsightModal({ isOpen, onClose, title, items = [], footer, buttonLabel = "View Full Breakdown in Insights →", onPrimaryAction }) {
   if (!isOpen) return null;
 
   return (
@@ -170,7 +170,14 @@ export function InsightModal({ isOpen, onClose, title, items = [], footer, butto
         </div>
 
         <div className="flex justify-end border-t border-slate-200 px-6 py-4">
-          <button type="button" onClick={onClose} className="cursor-pointer rounded-lg bg-[#0B7B6B] px-4 py-2 text-[14px] font-semibold text-white">
+          <button
+            type="button"
+            onClick={() => {
+              if (onPrimaryAction) onPrimaryAction();
+              onClose();
+            }}
+            className="cursor-pointer rounded-lg bg-[#0B7B6B] px-4 py-2 text-[14px] font-semibold text-white"
+          >
             {buttonLabel}
           </button>
         </div>

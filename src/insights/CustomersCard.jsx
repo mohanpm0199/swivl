@@ -10,7 +10,7 @@ function FlagRow({ emoji, children }) {
   );
 }
 
-export default function CustomersCard({ customers, aiSummary }) {
+export default function CustomersCard({ customers, aiSummary, onOpenInsights }) {
   const [modal, setModal] = useState(null);
 
   return (
@@ -21,9 +21,13 @@ export default function CustomersCard({ customers, aiSummary }) {
       aiSummary={aiSummary || "34 customers came back this month - strong loyalty. But Tom Hendricks costs more than he pays."}
       footer={
         <div className="mt-4 flex justify-end border-t border-slate-100 pt-3">
-          <a href="#" onClick={(e) => e.preventDefault()} className="text-[13px] font-medium text-[#0B7B6B]">
+          <button
+            type="button"
+            onClick={() => onOpenInsights?.({ section: "customer", filter: "All Customers" })}
+            className="text-[13px] font-medium text-[#0B7B6B]"
+          >
             View in Insights →
-          </a>
+          </button>
         </div>
       }
     >
@@ -76,6 +80,7 @@ export default function CustomersCard({ customers, aiSummary }) {
         ]}
         footer={{ label: "Your most valuable customer this month", tone: "teal" }}
         buttonLabel="View Full Breakdown in Insights →"
+        onPrimaryAction={() => onOpenInsights?.({ section: "customer", filter: "ABC Plumbing" })}
       />
 
       <InsightModal
@@ -91,6 +96,7 @@ export default function CustomersCard({ customers, aiSummary }) {
         ]}
         footer={{ label: "This account is costing you money", tone: "red" }}
         buttonLabel="View Full Breakdown in Insights →"
+        onPrimaryAction={() => onOpenInsights?.({ section: "customer", filter: "Tom Hendricks" })}
       />
     </Card>
   );

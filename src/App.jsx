@@ -6,8 +6,12 @@ import { data } from "./insights/data.js";
 import FinanceCard from "./insights/FinanceCard.jsx";
 import JobsCard from "./insights/JobsCard.jsx";
 import CustomersCard from "./insights/CustomersCard.jsx";
+import InsightsPage from "./insights/InsightsPage.jsx";
 
 export default function App() {
+  const [page, setPage] = useState("dashboard");
+  const [insightsTarget, setInsightsTarget] = useState(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [openCards, setOpenCards] = useState({
     finance: false,
     jobs: false,
@@ -41,57 +45,73 @@ export default function App() {
     }, 80);
   };
 
+  const handleOpenInsights = (target) => {
+    setInsightsTarget(target);
+    setPage("insights");
+  };
+
+  const handleBackToDashboard = () => {
+    setPage("dashboard");
+    setInsightsTarget(null);
+  };
+
   return (
     <ToastProvider>
       <div className="flex h-screen overflow-hidden bg-[#F3F4F6] text-[#111827]">
-        <Sidebar />
+        <Sidebar activeView={page} onNavigate={(view) => { setPage(view); setInsightsTarget(null); }} collapsed={sidebarCollapsed} onToggleCollapsed={() => setSidebarCollapsed((value) => !value)} />
 
         <div className="flex flex-1 flex-col overflow-hidden">
           <Topbar />
 
-          <main className="flex-1 overflow-y-auto px-6 py-6">
-            <div className="mx-auto max-w-screen-2xl">
-              <header className="mb-5 px-1">
-                <h1 className="text-[20px] font-semibold text-[#111827]">Dashboard</h1>
-                <p className="text-[13px] text-[#6B7280]">
-                  {data.month} · {data.owner}'s business
-                </p>
-              </header>
+          {page === "insights" ? (
+            <InsightsPage onBack={handleBackToDashboard} initialTarget={insightsTarget} />
+          ) : (
+            <main className="flex-1 overflow-y-auto px-6 py-6">
+              <div className="mx-auto max-w-screen-2xl">
+                <header className="mb-5 px-1">
+                  <h1 className="text-[20px] font-semibold text-[#111827]">Dashboard</h1>
+                  <p className="text-[13px] text-[#6B7280]">
+                    {data.month} · {data.owner}'s business
+                  </p>
+                </header>
 
-              {/* Cards arranged side by side below; each grows independently. */}
-              <div className="flex flex-wrap items-stretch gap-6">
-                <div className="w-full lg:w-[calc(33.333%-1rem)]">
-                  <FinanceCard
-                    finance={data.finance}
-                    aiSummary={data.ai.cardSummary.finance}
-                    open={openCards.finance}
-                    onToggle={() => toggleCard("finance")}
-                  />
+                {/* Cards arranged side by side below; each grows independently. */}
+                <div className="flex flex-wrap items-stretch gap-6">
+                  <div className="w-full lg:w-[calc(33.333%-1rem)]">
+                    <FinanceCard
+                      finance={data.finance}
+                      aiSummary={data.ai.cardSummary.finance}
+                      open={openCards.finance}
+                      onToggle={() => toggleCard("finance")}
+                      onOpenInsights={handleOpenInsights}
+                    />
+                  </div>
+                  <div className="w-full lg:w-[calc(33.333%-1rem)]">
+                    <JobsCard
+                      jobs={data.jobs}
+                      aiSummary={data.ai.cardSummary.jobs}
+                      open={openCards.jobs}
+                      onToggle={() => toggleCard("jobs")}
+                      onOpenInsights={handleOpenInsights}
+                    />
+                  </div>
+                  <div className="w-full lg:w-[calc(33.333%-1rem)]">
+                    <CustomersCard
+                      customers={data.customers}
+                      aiSummary={data.ai.cardSummary.customers}
+                      open={openCards.customers}
+                      onToggle={() => toggleCard("customers")}
+                      tomOpen={tomOpen}
+                      setTomOpen={setTomOpen}
+                      showAll={custShowAll}
+                      setShowAll={setCustShowAll}
+                      onOpenInsights={handleOpenInsights}
+                    />
+                  </div>
                 </div>
-                <div className="w-full lg:w-[calc(33.333%-1rem)]">
-                  <JobsCard
-                    jobs={data.jobs}
-                    aiSummary={data.ai.cardSummary.jobs}
-                    open={openCards.jobs}
-                    onToggle={() => toggleCard("jobs")}
-                  />
-                </div>
-                <div className="w-full lg:w-[calc(33.333%-1rem)]">
-                  <CustomersCard
-                    customers={data.customers}
-                    aiSummary={data.ai.cardSummary.customers}
-                    open={openCards.customers}
-                    onToggle={() => toggleCard("customers")}
-                    tomOpen={tomOpen}
-                    setTomOpen={setTomOpen}
-                    showAll={custShowAll}
-                    setShowAll={setCustShowAll}
-                  />
-                </div>
-              </div>
 
-              <div className="mt-8 space-y-8">
-                <section>
+                <div className="mt-8 space-y-8">
+                  <section>
                   <div className="mb-4 px-1">
                     <h2 className="text-[16px] font-semibold text-[#111827]">Leads</h2>
                   </div>
@@ -300,9 +320,10 @@ export default function App() {
                     </div>
                   </div>
                 </section>
+                </div>
               </div>
-            </div>
-          </main>
+            </main>
+          )}
         </div>
       </div>
     </ToastProvider>

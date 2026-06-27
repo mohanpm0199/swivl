@@ -10,7 +10,7 @@ function FlagRow({ emoji, children }) {
   );
 }
 
-export default function FinanceCard({ finance, aiSummary }) {
+export default function FinanceCard({ finance, aiSummary, onOpenInsights }) {
   const [modal, setModal] = useState(null);
 
   return (
@@ -56,9 +56,13 @@ export default function FinanceCard({ finance, aiSummary }) {
         </AiInsightsBox>
 
         <div className="flex justify-end">
-          <a href="#" onClick={(e) => e.preventDefault()} className="text-[13px] font-medium text-[#0B7B6B]">
+          <button
+            type="button"
+            onClick={() => onOpenInsights?.({ section: "cost", filter: "Loss Only" })}
+            className="text-[13px] font-medium text-[#0B7B6B]"
+          >
             View in Insights →
-          </a>
+          </button>
         </div>
       </div>
 
@@ -74,6 +78,7 @@ export default function FinanceCard({ finance, aiSummary }) {
         ]}
         footer={{ label: "Total lost this month: $690", tone: "red" }}
         buttonLabel="View Full Breakdown in Insights →"
+        onPrimaryAction={() => onOpenInsights?.({ section: "cost", filter: "Loss Only" })}
       />
 
       <InsightModal
@@ -89,6 +94,7 @@ export default function FinanceCard({ finance, aiSummary }) {
         ]}
         footer={{ label: "Total uncollected: $6,400", tone: "red" }}
         buttonLabel="View Full Breakdown in Insights →"
+        onPrimaryAction={() => onOpenInsights?.({ section: "collections", tab: "overdue" })}
       />
     </Card>
   );

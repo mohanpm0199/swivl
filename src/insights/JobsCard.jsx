@@ -19,7 +19,7 @@ function Stat({ label, value }) {
   );
 }
 
-export default function JobsCard({ jobs, aiSummary }) {
+export default function JobsCard({ jobs, aiSummary, onOpenInsights }) {
   const [modal, setModal] = useState(null);
 
   return (
@@ -30,9 +30,13 @@ export default function JobsCard({ jobs, aiSummary }) {
       aiSummary={aiSummary || "4 completed jobs still need invoicing. Drain cleaning is making you most profit. Inspections are costing you."}
       footer={
         <div className="mt-4 flex justify-end border-t border-slate-100 pt-3">
-          <a href="#" onClick={(e) => e.preventDefault()} className="text-[13px] font-medium text-[#0B7B6B]">
+          <button
+            type="button"
+            onClick={() => onOpenInsights?.({ section: "service", filter: "Profitable" })}
+            className="text-[13px] font-medium text-[#0B7B6B]"
+          >
             View in Insights →
-          </a>
+          </button>
         </div>
       }
     >
@@ -71,6 +75,7 @@ export default function JobsCard({ jobs, aiSummary }) {
         ]}
         footer={{ label: "Best work to do more of: Drain Cleaning", tone: "teal" }}
         buttonLabel="View Full Breakdown in Insights →"
+        onPrimaryAction={() => onOpenInsights?.({ section: "service", filter: "Profitable" })}
       />
 
       <InsightModal
@@ -85,6 +90,7 @@ export default function JobsCard({ jobs, aiSummary }) {
         ]}
         footer={{ label: "Total lost on inspections: $690", tone: "red" }}
         buttonLabel="View Full Breakdown in Insights →"
+        onPrimaryAction={() => onOpenInsights?.({ section: "service", filter: "Loss Making" })}
       />
     </Card>
   );
